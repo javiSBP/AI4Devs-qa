@@ -1,16 +1,16 @@
 // @ts-check
 const { test, expect } = require("@playwright/test");
-const {
-  setupApiMocks,
-  mockInterviewFlow,
-  mockCandidates,
-} = require("./mocks/api");
 const { findColumnByTitle } = require("./utils/helpers");
+const { fetchInterviewFlow, fetchCandidates } = require("./utils/api-helpers");
 
 test.describe("Position Interface Tests", () => {
+  let interviewFlowData;
+  let candidatesData;
+
   test.beforeEach(async ({ page }) => {
-    // Set up API mocks
-    await setupApiMocks(page);
+    // Fetch real data from the API
+    interviewFlowData = await fetchInterviewFlow(1);
+    candidatesData = await fetchCandidates(1);
 
     // Navigate to the position details page
     await page.goto("/positions/1");
@@ -22,7 +22,7 @@ test.describe("Position Interface Tests", () => {
   test("should display the position title correctly", async ({ page }) => {
     // Verify the position title is displayed correctly
     const title = await page.textContent("h2.text-center");
-    expect(title).toBe(mockInterviewFlow.interviewFlow.positionName);
+    expect(title).toBe(interviewFlowData.interviewFlow.positionName);
   });
 
   test("should display all interview step columns", async ({ page }) => {
@@ -31,14 +31,14 @@ test.describe("Position Interface Tests", () => {
 
     // Verify we have the right number of columns
     expect(columns.length).toBe(
-      mockInterviewFlow.interviewFlow.interviewFlow.interviewSteps.length
+      interviewFlowData.interviewFlow.interviewFlow.interviewSteps.length
     );
 
     // Verify each column has the right title
     for (let i = 0; i < columns.length; i++) {
       const columnTitle = await columns[i].textContent();
       const expectedTitle =
-        mockInterviewFlow.interviewFlow.interviewFlow.interviewSteps[i].name;
+        interviewFlowData.interviewFlow.interviewFlow.interviewSteps[i].name;
       expect(columnTitle).toBe(expectedTitle);
     }
   });
@@ -47,7 +47,7 @@ test.describe("Position Interface Tests", () => {
     page,
   }) => {
     // Verify each step has the correct candidates
-    for (const step of mockInterviewFlow.interviewFlow.interviewFlow
+    for (const step of interviewFlowData.interviewFlow.interviewFlow
       .interviewSteps) {
       const column = await findColumnByTitle(page, step.name);
 
@@ -57,7 +57,7 @@ test.describe("Position Interface Tests", () => {
         .all();
 
       // Get the candidates that should be in this step
-      const expectedCandidates = mockCandidates
+      const expectedCandidates = candidatesData
         .filter((c) => c.currentInterviewStep === step.name)
         .map((c) => c.fullName);
 
@@ -83,8 +83,8 @@ test.describe("Position Interface Tests", () => {
       const name = await card.textContent();
       expect(name).toBeTruthy();
 
-      // Verify the name is in our mock data
-      const candidateNames = mockCandidates.map((c) => c.fullName);
+      // Verify the name is in our data
+      const candidateNames = candidatesData.map((c) => c.fullName);
       expect(candidateNames).toContain(name);
     }
   });

@@ -25,9 +25,17 @@ module.exports = defineConfig({
     },
   ],
 
-  webServer: {
-    command: "npm run start",
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: "cd ../backend && npm run dev",
+      port: 3010,
+      reuseExistingServer: !process.env.CI,
+      timeout: 60000,
+    },
+    {
+      command: "npm run start",
+      port: 3000,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 });

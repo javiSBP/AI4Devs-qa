@@ -112,6 +112,62 @@ Add the Playwright test artifacts directories to the .gitignore file to prevent 
 
 check if E2E tests are passing
 
+---
+
 # Fix failing playwright tests
 
 tests did not pass, check @e2e-tests /test-results folder to view where they fail
+
+---
+
+# E2E Tests with Real Backend Implementation
+
+## Role
+
+You are an expert software engineer specialized in E2E testing.
+
+## Context
+
+The E2E tests were previously implemented using mock API responses in a file named `api.js`. These tests do not properly test the interaction with the actual backend as they intercept API calls and return mock data. The task is to update the tests to use the real backend implementation rather than mocks.
+
+## Requirements
+
+1. Remove the mocks file and update the tests to use the actual backend
+2. Set up the configuration to ensure the backend is running when E2E tests are executed
+3. Use the real API endpoints documented in the technical overview:
+   - `GET /positions/:id/interviewFlow`: Get the interview flow structure for a position
+   - `GET /positions/:id/candidates`: Get candidates for a specific position
+   - `PUT /candidates/:id`: Update a candidate's interview step
+4. No fallbacks to mock implementations should be used - tests must verify the actual integration
+
+## Solution
+
+1. Delete the mocks file and create API helper functions to interact with the real backend
+2. Configure Playwright to start both frontend and backend servers when running tests
+3. Update test files to fetch real data and use it for verification
+4. Implement proper skipping of tests when data is not available
+
+---
+
+# Improving E2E Tests with API Helper Methods
+
+## Role
+
+You are an expert software engineer optimizing E2E testing practices.
+
+## Context
+
+The E2E tests were updated to use the real backend instead of mocks, but still used route interception to monitor and verify API calls during testing. While this approach works, it's better to create and use proper API helper methods for operations like updating a candidate's interview step.
+
+## Requirements
+
+1. Create an explicit API helper method for the PUT /candidates/:id endpoint
+2. Update the drag-drop tests to use this helper method where appropriate
+3. Ensure tests still verify both the API interaction and UI updates properly
+
+## Solution
+
+1. Created updateCandidateStep() API helper method to make direct API calls
+2. Updated the second test to use this method directly instead of route interception
+3. Maintained monitoring of API calls in first test to verify drag-and-drop triggers correct API requests
+4. Added page reload and UI verification after direct API updates
