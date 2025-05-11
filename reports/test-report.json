@@ -14,11 +14,7 @@
       "actualWorkers": 6
     },
     "preserveOutput": "always",
-    "reporter": [
-      [
-        "json"
-      ]
-    ],
+    "reporter": [["json"]],
     "reportSlowTests": {
       "max": 5,
       "threshold": 300000
@@ -36,9 +32,7 @@
         "name": "chromium",
         "testDir": "C:/Users/javis/projects/AI4Devs-qa/frontend/e2e-tests",
         "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       }
     ],
@@ -68,7 +62,7 @@
           "column": 6,
           "specs": [
             {
-              "title": "should move a candidate from one stage to another using drag and drop",
+              "title": "should verify drag and drop API interaction",
               "ok": true,
               "tags": [],
               "tests": [
@@ -102,7 +96,7 @@
               "column": 3
             },
             {
-              "title": "should verify the API call to update candidate step",
+              "title": "should verify API request details when updating candidate step",
               "ok": true,
               "tags": [],
               "tests": [
@@ -136,7 +130,7 @@
               "column": 3
             },
             {
-              "title": "should update the UI after moving a candidate",
+              "title": "should verify UI updates after drag and drop",
               "ok": true,
               "tags": [],
               "tests": [
@@ -255,7 +249,7 @@
               "column": 3
             },
             {
-              "title": "should display candidate cards in the correct columns",
+              "title": "should verify candidate card display in columns",
               "ok": true,
               "tags": [],
               "tests": [
