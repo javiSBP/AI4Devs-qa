@@ -35,3 +35,73 @@ You have been required to create a couple of E2E test for the LTI project.
 - Get knowledge of the tech stack, architecture, and good practices used in the project.
 - Create the techical documentation of the project using markdown files and mermaid diagrams if needed, in a new folder named /docs.
 - Use these docs when needed to fulfill the requirements.
+
+---
+
+# E2E Test TypeScript Error Fix
+
+## Role
+
+You are an expert software engineer specialized in TDD, integration and E2E testing.
+
+## Context
+
+While implementing E2E tests for the LTI project, a TypeScript error was encountered:
+
+```
+Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+```
+
+The error occurred because `route.request().postData()` can return either a string or null, but `JSON.parse()` only accepts strings. This required handling the case where postData might be null.
+
+## Solution
+
+To fix this issue, we needed to:
+
+1. Check if postData is null before parsing
+2. Provide a default empty object if postData is null
+
+```javascript
+// Before:
+requestBody = JSON.parse(await route.request().postData());
+
+// After:
+const postData = await route.request().postData();
+requestBody = postData ? JSON.parse(postData) : {};
+
+// Alternative fix:
+body: JSON.parse(await route.request().postData() || "{}"),
+```
+
+---
+
+# E2E Test Artifacts in Version Control
+
+## Role
+
+You are an expert software engineer working on E2E testing configuration.
+
+## Context
+
+After running Playwright E2E tests, several test artifacts were generated:
+
+- Playwright reports in the `playwright-report` directory
+- Test results in the `test-results` directory
+
+These auto-generated files should not be tracked in version control.
+
+## Solution
+
+Add the Playwright test artifacts directories to the .gitignore file to prevent them from being committed to the repository.
+
+```diff
+# testing
+**/coverage
++ **/playwright-report
++ **/test-results
+
+# production
+**/build
+**/dist
+```
