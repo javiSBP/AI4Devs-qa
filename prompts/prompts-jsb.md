@@ -105,3 +105,13 @@ Add the Playwright test artifacts directories to the .gitignore file to prevent 
 **/build
 **/dist
 ```
+
+---
+
+# E2E tests verification
+
+check if E2E tests are passing
+
+# Fix failing playwright tests
+
+tests did not pass, check @e2e-tests /test-results folder to view where they fail
