@@ -1,0 +1,9 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Create the file prompts/prompts-jsb.md if it does not exist.
+- Copy each exact prompt I write to prompts/prompts-jsb.md file using markdown format.
+
+- Separate each prompt from the previous one using a markdown separator followed by a generated title for the new prompt.
